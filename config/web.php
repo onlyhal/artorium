@@ -2,6 +2,7 @@
 
 $params = require(__DIR__ . '/params.php');
 
+$db = file_exists ( __DIR__ . '/db-local.php') ? require(__DIR__ . '/db-local.php') : require(__DIR__ . '/db.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
@@ -37,7 +38,7 @@ $config = [
                 ],
             ],
         ],
-        'db' => require(__DIR__ . '/db.php'),
+        'db' => $db,
     ],
     'params' => $params,
 ];
