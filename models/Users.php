@@ -37,7 +37,9 @@ class Users extends \yii\db\ActiveRecord
             [['date_born', 'date_reg'], 'safe'],
             [['login', 'pass_hash', 'name', 'surname', 'email'], 'string', 'max' => 255],
             [['login', 'pass_hash', 'email'], 'required'],
-            [['email'], 'email'],
+            [['email'], 'email','message'=>'Email invalid'],
+            [['login'], 'unique','message'=>'Login already exists!'],
+            [['email'], 'unique','message'=>'Email already exists!'],
 //            [['pass_hash'], 'min' => 6],
         ];
     }

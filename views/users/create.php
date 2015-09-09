@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="form-group">
             <label class="control-label" for="Users[city_id]">Город:</label>
-            <select name="User[city_id]" class="form-control">
+            <select name="Users[city_id]" class="form-control">
                 <?php foreach($cities as $city): ?>
                 <option value="<?php echo $city->id; ?>">
                     <?php echo $city->name;    ?>

@@ -63,11 +63,11 @@ class UsersController extends Controller
     {
         $model = new Users();
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model->save(   )) {
             $model->date_reg = date('Y-m-d H:i:s');
             $model->pass_hash = md5( $_POST['Users']['pass_hash'] );
             $model->city_id = $_POST['Users']['city_id'];
-            $model->save();
+            $model->save(true);
 
             return $this->redirect(['view', 'id' => $model->id]);
 
@@ -78,6 +78,9 @@ class UsersController extends Controller
                 'model' => $model,
             ]);
         }
+//        $session = new Session;
+//        $session->open();
+//        $session['name1'];
     }
 
     /**
