@@ -11,6 +11,12 @@ $this->title = 'Sign in';
 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?php if(isset($errorCode) && $errorCode == 1){ ?>
+    <div class="alert alert-danger">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        Неправильный логин или пароль. Проверьте правильность вводимых данных
+    </div>
+<?php }?>
 <div class="users-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
