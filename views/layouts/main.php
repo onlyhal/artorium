@@ -37,7 +37,11 @@ AppAsset::register($this);
         <ul>
             <li>
 <!--                --><?php //if()?>
-                <a href="<?php echo Url::toRoute('/users/create');?>">Login</a></li>
+                <a href="<?php echo Url::toRoute('/users/create');?>">Sign Up</a>
+            </li>
+            <li>
+                <a href="<?php echo Url::toRoute('/users/signin');?>">Sign In</a>
+            </li>
         </ul>
         <?php
             NavBar::end();

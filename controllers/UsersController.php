@@ -114,7 +114,36 @@ class UsersController extends Controller
 
         return $this->redirect(['index']);
     }
+    protected function checkData(){
+        if(2 == 2){
+            return true;
+        }
+    }
+    public function actionSignin(){
+        $model = new Users();
 
+        if ($model->load(Yii::$app->request->post()) && $this->checkData()) {
+           $modelNew = Users::find()
+               ->where([
+                   'login' => $model->login,
+                   'pass_hash' => md5($model->pass_hash),
+               ])->one();
+
+             if(!$modelNew){
+                 return $this->render('signin', [
+                     'model' => $model,
+                 ]);
+             }else{
+                 return $this->render('view', [
+                     'model' => $modelNew
+                 ]);
+             }
+        } else {
+            return $this->render('signin', [
+                'model' => $model,
+            ]);
+        }
+    }
     /**
      * Finds the Users model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
