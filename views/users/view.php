@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use  yii\web\Session;
+$session = new Session;
+$session->open();
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Users */
@@ -13,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="users-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+    <?php if($session['user_login']){ echo 'Идентификатор из сессии: '.$session['user_login']; }?>
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
