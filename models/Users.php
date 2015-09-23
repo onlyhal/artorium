@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "users".
@@ -19,6 +20,7 @@ use Yii;
  */
 class Users extends \yii\db\ActiveRecord
 {
+    public $user_avatar;
     /**
      * @inheritdoc
      */
@@ -40,6 +42,7 @@ class Users extends \yii\db\ActiveRecord
             [['email'], 'email','message'=>'Email invalid'],
             [['login'], 'unique','message'=>'Login already exists!'],
             [['email'], 'unique','message'=>'Email already exists!'],
+            [['user_avatar'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 1],
 //            [['pass_hash'], 'min' => 6],
         ];
     }
@@ -60,5 +63,18 @@ class Users extends \yii\db\ActiveRecord
             'date_born' => 'Date Born',
             'date_reg' => 'Date Reg',
         ];
+    }
+    public function upload()
+    {
+        var_dump($this->user_avatar);
+        die();
+        if ($this->validate()) {
+            foreach ($this->user_avatar as $file) {
+                $file->saveAs('/media/users_photo' . $file->baseName . '.' . $file->extension);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

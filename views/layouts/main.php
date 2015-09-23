@@ -5,6 +5,9 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use yii\helpers\Url;
+use  yii\web\Session;
+$session = new Session;
+$session->open();
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -35,13 +38,26 @@ AppAsset::register($this);
             ]);
         ?>
         <ul>
+                <?php
+                    if(!$session['user_login']){
+                ?>
             <li>
-<!--                --><?php //if()?>
                 <a href="<?php echo Url::toRoute('/users/create');?>">Sign Up</a>
             </li>
             <li>
                 <a href="<?php echo Url::toRoute('/users/signin');?>">Sign In</a>
             </li>
+            <?php
+                }else{
+            ?>
+            <li>
+                <a href="<?php echo Url::toRoute('/users/create');?>"><?php echo $session['user_login'] ?></a>
+            </li>
+            <li>
+                <a href="<?php echo Url::toRoute('/users/logout');?>">Logout</a>
+            </li>
+            <?php
+            }?>
         </ul>
         <?php
             NavBar::end();

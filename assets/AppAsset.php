@@ -18,13 +18,15 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
         'css/jqueryUI/jquery-ui.min.css',
         'css/jqueryUI/jquery-ui.structure.min.css',
         'css/jqueryUI/jquery-ui.theme.min.css',
+        'css/jquery.dropzone.css',
+        'css/site.css',
     ];
     public $js = [
         'js/jqueryUI/jquery-ui.min.js',
+        'js/jquery.dropzone.js',
         'js/__init.js',
     ];
     public $depends = [

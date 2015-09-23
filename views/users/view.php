@@ -2,36 +2,41 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use  yii\web\Session;
-$session = new Session;
-$session->open();
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Users */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = $model->name.' '.$model->surname;
+
+$this->params['breadcrumbs'][] = 'Личный кабинет';
+
+$dateBorn = new DateTime($model->date_born);
 ?>
 <div class="users-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php if($session['user_login']){ echo 'Идентификатор из сессии: '.$session['user_login']; }?>
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
+    <div class="row">
+        <div class="col-lg-12">
+            <p><?php echo $model->name; ?>  <?php echo $model->surname; ?></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p><?php echo $model->login; ?> </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p><?php echo $dateBorn->format('d.m.Y'); ?></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p><?php echo $model->email; ?></p>
+        </div>
+    </div>
 
-  <?php echo $model->name; ?>
-  <?php echo $model->surname; ?>
-  <?php echo $model->login; ?>
-  <?php echo $model->date_born; ?>
-  <?php echo $model->email; ?>
-  <?php echo date('Y-m-d') - $model->date_reg; ?>
 </div>

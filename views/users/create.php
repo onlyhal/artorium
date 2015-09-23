@@ -18,7 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="users-form">
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin([
+            'options' => [
+                'enctype' => 'multipart/form-data',
+            ]
+        ]); ?>
 
         <?= $form->field($model, 'login')->textInput(['maxlength' => true]) ?>
 
@@ -35,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'email')->input('email') ?>
 
-
+        <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
 
         <?= $form->field($model, 'date_born', [
             'inputOptions' => [
@@ -54,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php endforeach; ?>
             </select>
         </div>
-
+        <input type="file" name="image" id="image">
         <div class="form-group">
             <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
