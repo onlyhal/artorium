@@ -59,23 +59,23 @@ class UsersController extends Controller
     {
         $model = new Users();
 
-        if ($model->load(Yii::$app->request->post()) ) {
+        if ($model->load(Yii::$app->request->post()) && $model->save(true)) {
             $model->date_reg = date('Y-m-d H:i:s');
-            $model->pass_hash = md5( $_POST['Users']['pass_hash'] );
+
             $model->city_id = $_POST['Users']['city_id'];
-            var_dump($_FILES);
-            die();
+
             if($_FILES['image']['tmp_name'] != ''){
-                $uploaddir = '../wp-content/media/articles/';
-                $newFileName = date('YmdHis') . rand(10, 100) . 's.jpg';
+                $uploaddir = '../media/users_photo/';
+                $newFileName = date('YmdHis') . rand(10, 100) . '.jpg';
                 $uploadfile = $uploaddir . $newFileName;
 
-                move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile);
-
+                if(move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)){
+                    $model->user_avatar = 'users_photo/'.$newFileName;
+                }
             }
-            $model->user_avatar = $_FILES;
-            $model->upload();
-//            $model->save(true);
+            $model->pass_hash = md5( $model->pass_hash );
+            $model->password_repeat = md5( $model->pass_hash );
+            $model->save(false); //we don't need second validation. Returns error if 'true'
 
             return $this->redirect(['view', 'id' => $model->id]);
 

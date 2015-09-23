@@ -38,5 +38,9 @@ $dateBorn = new DateTime($model->date_born);
             <p><?php echo $model->email; ?></p>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-lg-12">
+            <p><img width="200" src="/media/<?php echo $model->user_avatar; ?>" alt="<?php echo $model->login; ?>"></p>
+        </div>
+    </div>
 </div>

@@ -17,10 +17,11 @@ use yii\web\UploadedFile;
  * @property integer $city_id
  * @property string $date_born
  * @property string $date_reg
+ * @property string $password_repeat
  */
 class Users extends \yii\db\ActiveRecord
 {
-    public $user_avatar;
+    public $password_repeat;
     /**
      * @inheritdoc
      */
@@ -37,13 +38,23 @@ class Users extends \yii\db\ActiveRecord
         return [
             [['city_id'], 'integer'],
             [['date_born', 'date_reg'], 'safe'],
-            [['login', 'pass_hash', 'name', 'surname', 'email'], 'string', 'max' => 255],
+            [['pass_hash', 'user_avatar'], 'string', 'max' => 255],
+
+            [['login'], 'string', 'max' => 15],
+            [['name', 'surname', 'email'], 'string', 'max' => 30],
+
             [['login', 'pass_hash', 'email'], 'required'],
+            ['password_repeat', 'required'],
+            ['password_repeat', 'compare', 'compareAttribute'=>'pass_hash', 'message'=>"Passwords don't match" ],
+
+            [['login'], 'filter', 'filter' => function($value) {
+                return trim(htmlentities(strip_tags(str_replace(" ","",$value)), ENT_QUOTES, 'UTF-8'));
+            }],
+
+
+            [['email'], 'unique','message'=>'Email already exists!'],
             [['email'], 'email','message'=>'Email invalid'],
             [['login'], 'unique','message'=>'Login already exists!'],
-            [['email'], 'unique','message'=>'Email already exists!'],
-            [['user_avatar'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 1],
-//            [['pass_hash'], 'min' => 6],
         ];
     }
 

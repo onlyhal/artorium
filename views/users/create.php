@@ -28,10 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'pass_hash')->passwordInput(['maxlength' => true])->label('Пароль') ?>
 
-        <div class="form-group">
-            <label class="control-label" for="repeat-pass-field">Повторите пароль:</label>
-            <input type="password" id="repeat-pass-field"    class="form-control" name="repeat-pass-field" maxlength="">
-        </div>
+        <?= $form->field($model, 'password_repeat')->passwordInput(); ?>
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
@@ -39,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'email')->input('email') ?>
 
-        <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+        <input type="hidden" name="MAX_FILE_SIZE" value="4194304" />
 
         <?= $form->field($model, 'date_born', [
             'inputOptions' => [
@@ -53,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <select name="Users[city_id]" class="form-control">
                 <?php foreach($cities as $city): ?>
                 <option value="<?php echo $city->id; ?>">
-                    <?php echo $city->name;    ?>
+                    <?php echo $city->name; ?>
                 </option>
                 <?php endforeach; ?>
             </select>
