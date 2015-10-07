@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
         'css/jqueryUI/jquery-ui.theme.min.css',
         'css/jquery.dropzone.css',
         'css/site.css',
+        'css/__user.page.css',
     ];
     public $js = [
         'js/jqueryUI/jquery-ui.min.js',

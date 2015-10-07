@@ -89,3 +89,12 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+.ui-datepicker-title select{
+    color: #333333;
+}
+
+.ui-widget-header{
+    background: #222222;
+    border: 1px solid #000000;
+}

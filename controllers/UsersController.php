@@ -5,18 +5,30 @@ namespace app\controllers;
 use app\models\Cities;
 use Yii;
 use app\models\Users;
-use yii\data\ActiveDataProvider;
+use yii\helpers\ArtHelpers;
+use yii\helpers\BasicHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use  yii\web\Session;
-use yii\web\UploadedFile;
+use yii\web\Session;
 
 /**
  * UsersController implements the CRUD actions for Users model.
  */
 class UsersController extends Controller
 {
+    public function get_ages ($date_from, $date_till) {
+        $date_from = explode('-', $date_from);
+        $date_till = explode('-', $date_till);
+
+        $time_from = mktime(0, 0, 0, $date_from[1], $date_from[2], $date_from[0]);
+        $time_till = mktime(0, 0, 0, $date_till[1], $date_till[2], $date_till[0]);
+
+        $diff = ($time_till - $time_from)/60/60;
+
+        return $diff;
+    }
+
     public function behaviors()
     {
         return [
@@ -45,8 +57,11 @@ class UsersController extends Controller
      */
     public function actionView($id)
     {
+        $userModel = $this->findModel($id);
+//        $currentDate = get_ages (date('Y-m-d'), $userModel->date_born);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $userModel,
+            'userAge' => BasicHelper::getDateDiff(date('Y-m-d'), $userModel->date_born)
         ]);
     }
 
