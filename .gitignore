@@ -26,3 +26,6 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 /config/db-local.php
+
+#media files
+/media
