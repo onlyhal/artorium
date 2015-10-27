@@ -58,7 +58,6 @@ class UsersController extends Controller
     public function actionView($id)
     {
         $userModel = $this->findModel($id);
-//        $currentDate = get_ages (date('Y-m-d'), $userModel->date_born);
         return $this->render('view', [
             'model' => $userModel,
             'userAge' => BasicHelper::getDateDiff(date('Y-m-d'), $userModel->date_born)
@@ -152,9 +151,10 @@ class UsersController extends Controller
              }else{
                  $session = new Session;
                  $session->open();
-                 $session['user_login'] = $model->login;
+                 $session['user_login'] = strtolower($model->login);
                  return $this->render('view', [
-                     'model' => $modelNew
+                     'model' => $modelNew,
+                     'userAge' => BasicHelper::getDateDiff(date('Y-m-d'), $modelNew->date_born)
                  ]);
              }
         } else {

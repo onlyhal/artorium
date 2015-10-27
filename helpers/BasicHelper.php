@@ -1,9 +1,10 @@
 <?php
 namespace yii\helpers;
 use Yii;
+use app\models\Users;
 class BasicHelper{
 
-    public static function getDateDiff ($date_from, $date_till) {
+    public function getDateDiff ($date_from, $date_till) {
         $date_from = explode('-', $date_from);
         $date_till = explode('-', $date_till);
 
@@ -16,13 +17,15 @@ class BasicHelper{
         return $diff;
     }
 
-//    public static function getYearsWord($years){
-//        switch(true){
-//            case substr($years,-1) > 4 && $years > 4 : $word = 'лет'; break;
-//            case fmod($years, 10) == 1 : $word = 'год'; break;
-//            default: $word = 'года';
-//        }
-//        return substr($years,-1);
-//    }
+    public function getYearsWord($years){
+        $strArr = ['лет', 'год', 'года', 'года', 'года', 'лет', 'лет', 'лет', 'лет', 'лет'];
+        return $strArr[substr($years, strlen($years)-1)];
+    }
 
+    public function getUserByLogin($login){
+        return Users::find()
+            ->where([
+                'login' => $login,
+            ])->one();
+    }
 }

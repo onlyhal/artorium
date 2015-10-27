@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\BasicHelper;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model app\models\Users */
 
@@ -25,10 +26,10 @@ $dateBorn = new DateTime($model->date_born);
 
             <p><?php echo $dateBorn->format('d.m.Y'); ?>
                 <?php
-//                echo $userAge.' '.BasicHelper::getYearsWord(25);
+                echo $userAge.' '.BasicHelper::getYearsWord($userAge);
                 ?></p>
 
 
             <p><?php echo $model->email; ?></p>
-
+    <a class="btn btn-success" href="<?php echo Url::toRoute('/works/index');?>">Добавить работу</a>
 </div>

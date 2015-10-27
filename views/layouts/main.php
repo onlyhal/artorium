@@ -30,7 +30,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'My Company',
+                'brandLabel' => 'Art',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -51,7 +51,7 @@ AppAsset::register($this);
                 }else{
             ?>
             <li>
-                <a href="<?php echo Url::toRoute('/users/view/36');?>"><?php echo $session['user_login'] ?></a>
+                <a href="<?php echo Url::toRoute(['/users/view/', 'id' => 36]);?>"><?php echo $session['user_login'] ?></a>
             </li>
             <li>
                 <a href="<?php echo Url::toRoute('/users/logout');?>">Logout</a>
