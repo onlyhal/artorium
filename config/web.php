@@ -8,6 +8,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
+
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'i31021ii14i',
@@ -16,7 +17,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\Users',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -39,6 +40,35 @@ $config = [
             ],
         ],
         'db' => $db,
+
+        //вход через соц.сети
+        'eauth' => array(
+            'class' => 'nodge\eauth\EAuth',
+            'popup' => true, // Use the popup window instead of redirecting.
+            'cache' => false, // Cache component name or false to disable cache. Defaults to 'cache' on production environments.
+            'cacheExpire' => 0, // Cache lifetime. Defaults to 0 - means unlimited.
+            'httpClient' => array(
+                // uncomment this to use streams in safe_mode
+                //'useStreamsFallback' => true,
+            ),
+            'services' => array(
+                'facebook' => array(
+                    // register your app here: https://developers.facebook.com/apps/
+                    'class' => 'nodge\eauth\services\FacebookOAuth2Service',
+                    'clientId' => '938925966188399',
+                    'clientSecret' => '75b0c836a9ce4befcd0577292d46d2c9',
+                ),
+            ),
+        ),
+
+        'i18n' => array(
+            'translations' => array(
+                'eauth' => array(
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@eauth/messages',
+                ),
+            ),
+        ),
     ],
     'params' => $params,
 ];

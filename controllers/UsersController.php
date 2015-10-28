@@ -38,6 +38,12 @@ class UsersController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'eauth' => array(
+                // required to disable csrf validation on OpenID requests
+                'class' => \nodge\eauth\openid\ControllerBehavior::className(),
+                'only' => array('login'),
+            ),
+
         ];
     }
 
@@ -134,6 +140,45 @@ class UsersController extends Controller
         return $this->redirect(['index']);
     }
     public function actionSignin(){
+
+//вход соц.сети
+        $serviceName = Yii::$app->getRequest()->getQueryParam('service');
+        if (isset($serviceName)) {
+            /** @var $eauth \nodge\eauth\ServiceBase */
+            $eauth = Yii::$app->get('eauth')->getIdentity($serviceName);
+            $eauth->setRedirectUrl(Yii::$app->getUser()->getReturnUrl());
+            $eauth->setCancelUrl(Yii::$app->getUrlManager()->createAbsoluteUrl('users/signin'));
+
+            try {
+                if ($eauth->authenticate()) {
+//                  var_dump($eauth->getIsAuthenticated(), $eauth->getAttributes()); exit;
+
+                    $identity = Users::findByEAuth($eauth);
+                    Yii::$app->getUser()->login($identity);
+
+                    $session = Yii::$app->session;
+                    $session['eauth_profile'] = $eauth->attributes;
+                    //var_dump($session['eauth_profile']);
+
+                    // special redirect with closing popup window
+                    $eauth->redirect();
+                }
+                else {
+                    // close popup window and redirect to cancelUrl
+                    $eauth->cancel();
+                }
+            }
+            catch (\nodge\eauth\ErrorException $e) {
+                // save error to show it later
+                Yii::$app->getSession()->setFlash('error', 'EAuthException: '.$e->getMessage());
+
+                // close popup window and redirect to cancelUrl
+//              $eauth->cancel();
+                $eauth->redirect($eauth->getCancelUrl());
+            }
+        }
+//end вход через соц.сети
+
         $model = new Users();
 
         if ($model->load(Yii::$app->request->post())) {

@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="users-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <div id="fb-root"></div>
+    <!--div id="fb-root"></div>
 
     <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="true" onlogin="checkLoginState();"></div>
     <script>
@@ -88,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
             });
         }
 
-    </script>
+    </script-->
 
 
     <div class="users-form">

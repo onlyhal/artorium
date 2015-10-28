@@ -2,6 +2,14 @@
 /* @var $this yii\web\View */
 $this->title = 'My Yii Application';
 ?>
+
+<?
+$identity = Yii::$app->getUser()->getIdentity();
+var_dump($identity->profile);
+
+?>
+<img src="http://graph.facebook.com/<?=$identity->profile['id']?>/picture" />
+
 <div class="site-index">
 
     <div class="jumbotron">

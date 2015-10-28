@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 use yii\web\UploadedFile;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "users".
@@ -19,8 +21,14 @@ use yii\web\UploadedFile;
  * @property string $date_reg
  * @property string $password_repeat
  */
-class Users extends \yii\db\ActiveRecord
+class Users extends ActiveRecord implements IdentityInterface
 {
+    public $id;
+    public $username;
+    public $password;
+    public $authKey;
+    public $accessToken;
+
     public $password_repeat;
     /**
      * @inheritdoc
@@ -29,6 +37,30 @@ class Users extends \yii\db\ActiveRecord
     {
         return 'users';
     }
+
+    //social
+
+    /*public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }*/
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['access_token' => $token]);
+    }
+    public function getId()
+    {
+        return $this->id;
+    }
+    public function getAuthKey()
+    {
+        return $this->auth_key;
+    }
+    public function validateAuthKey($authKey)
+    {
+        return $this->getAuthKey() === $authKey;
+    }
+    //end social
 
     /**
      * @inheritdoc
@@ -77,7 +109,7 @@ class Users extends \yii\db\ActiveRecord
     }
     public function upload()
     {
-        var_dump($this->user_avatar);
+        //var_dump($this->user_avatar);
         die();
         if ($this->validate()) {
             foreach ($this->user_avatar as $file) {
@@ -88,4 +120,34 @@ class Users extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+    //соц сети
+    public $profile;
+
+    public static function findIdentity($id) {
+        if (Yii::$app->getSession()->has('user-'.$id)) {
+            return new self(Yii::$app->getSession()->get('user-'.$id));
+        }
+        else {
+            return isset(self::$users[$id]) ? new self(self::$users[$id]) : null;
+        }
+    }
+
+    public static function findByEAuth($service) {
+        if (!$service->getIsAuthenticated()) {
+            throw new ErrorException('EAuth user should be authenticated before creating identity.');
+        }
+
+        $id = $service->getServiceName().'-'.$service->getId();
+        $attributes = array(
+            'id' => $id,
+            'username' => $service->getAttribute('name'),
+            'authKey' => md5($id),
+            'profile' => $service->getAttributes(),
+        );
+        $attributes['profile']['service'] = $service->getServiceName();
+        Yii::$app->getSession()->set('user-'.$id, $attributes);
+        return new self($attributes);
+    }
+
 }
