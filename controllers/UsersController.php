@@ -158,10 +158,33 @@ class UsersController extends Controller
 
                     $session = Yii::$app->session;
                     $session['eauth_profile'] = $eauth->attributes;
-                    //var_dump($session['eauth_profile']);
+
+                    //var_dump($session['eauth_profile']['email']);
+                    $empty_model = new Users();
+                    $model = Users::find()
+                        ->where([
+                            'email' => $session['eauth_profile']['email'],
+                        ])->one();
+                    if(!$model) {
+                       $this->redirect(Yii::$app->getUrlManager()->createAbsoluteUrl('users/create'));
+                       /* return $this->render('signin', [
+                            'model' => $empty_model,
+                            'errorCode' => 1
+                        ]);*/
+                    }else{
+                        $session = new Session;
+                        $session->open();
+                        $session['user_login'] = strtolower($model->login);
+                        //$fb_model = $model;
+                        return $this->render('view', [
+                            'model' => $model,
+                            'userAge' => BasicHelper::getDateDiff(date('Y-m-d'), $model->date_born)
+                        ]);
+                    }
+
 
                     // special redirect with closing popup window
-                    $eauth->redirect();
+                    //$eauth->redirect();
                 }
                 else {
                     // close popup window and redirect to cancelUrl
