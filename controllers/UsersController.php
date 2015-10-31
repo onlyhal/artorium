@@ -99,7 +99,8 @@ class UsersController extends Controller
 
             return $this->redirect(['view', 'id' => $model->id]);
 
-        } else {
+        } else //if(isset($social_array)){} else
+        {
             $cities_model = Cities::find()->all();
             return $this->render('create', [
                 'cities' => $cities_model,
@@ -166,25 +167,22 @@ class UsersController extends Controller
                             'email' => $session['eauth_profile']['email'],
                         ])->one();
                     if(!$model) {
-                       $this->redirect(Yii::$app->getUrlManager()->createAbsoluteUrl('users/create'));
-                       /* return $this->render('signin', [
-                            'model' => $empty_model,
-                            'errorCode' => 1
-                        ]);*/
+                       $eauth->redirect(array('users/create'));
                     }else{
                         $session = new Session;
                         $session->open();
                         $session['user_login'] = strtolower($model->login);
+                        $session['user_id'] = $model->id;
                         //$fb_model = $model;
-                        return $this->render('view', [
+                        echo 'xer<br><br><br><br>';
+                        var_dump($model);
+                        $eauth->redirect(array('users/view',
                             'model' => $model,
-                            'userAge' => BasicHelper::getDateDiff(date('Y-m-d'), $model->date_born)
-                        ]);
+                            'id' => $model['id'],
+                            //'userAge' => BasicHelper::getDateDiff(date('Y-m-d'), $model->date_born)
+                        ));
                     }
 
-
-                    // special redirect with closing popup window
-                    //$eauth->redirect();
                 }
                 else {
                     // close popup window and redirect to cancelUrl
@@ -220,6 +218,7 @@ class UsersController extends Controller
                  $session = new Session;
                  $session->open();
                  $session['user_login'] = strtolower($model->login);
+                 $session['user_id'] = $model->id;
                  return $this->render('view', [
                      'model' => $modelNew,
                      'userAge' => BasicHelper::getDateDiff(date('Y-m-d'), $modelNew->date_born)

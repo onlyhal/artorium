@@ -97,19 +97,33 @@ $this->params['breadcrumbs'][] = $this->title;
             'options' => [
                 'enctype' => 'multipart/form-data',
             ]
-        ]); ?>
+        ]);
 
-        <?= $form->field($model, 'login')->textInput(['maxlength' => true]) ?>
+        $session = Yii::$app->session;
+        if (isset($session['eauth_profile'])) {
+            ?>
+            <p class="lead">Вы ещё не зарегестрированы на artorium!? O_o</p>
+            <?php
+            var_dump($session['eauth_profile']);
+            $facebook_birthday = $session['eauth_profile']['birthday'];
+            $facebook_birthday = explode("/", $facebook_birthday);
+            //var_dump($facebook_birthday);
+            $facebook_birthday = $facebook_birthday[2] . '-' . $facebook_birthday[0] . '-' . $facebook_birthday[1];
+        }
+       // }
+        ?>
+
+        <?= $form->field($model, 'login')->textInput(['maxlength' => true, 'value' => $session['eauth_profile']['first_name'].'.'.$session['eauth_profile']['last_name']]) ?>
 
         <?= $form->field($model, 'pass_hash')->passwordInput(['maxlength' => true])->label('Пароль') ?>
 
         <?= $form->field($model, 'password_repeat')->passwordInput(); ?>
 
-        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'value' => $session['eauth_profile']['first_name']]) ?>
 
-        <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'surname')->textInput(['maxlength' => true, 'value' => $session['eauth_profile']['last_name']]) ?>
 
-        <?= $form->field($model, 'email')->input('email') ?>
+        <?= $form->field($model, 'email')->textInput(['email', 'value' => $session['eauth_profile']['email']]) ?>
 
         <input type="hidden" name="MAX_FILE_SIZE" value="4194304" />
 
@@ -118,7 +132,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'placeholder' => 'хуй',
                 'class' => 'form-control datepicker',
             ]
-        ])->textInput()->hint('yyyy-mm-dd') ?>
+        ])->textInput([ 'value' => $facebook_birthday])->hint('yyyy-mm-dd') ?>
 
         <div class="form-group">
             <label class="control-label" for="Users[city_id]">Город:</label>

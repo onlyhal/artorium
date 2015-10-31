@@ -13,9 +13,21 @@ $this->params['breadcrumbs'][] = 'Личный кабинет ('.$model->login.'
 $dateBorn = new DateTime($model->date_born);
 ?>
 <div class="users-view">
-
     <div class="user-profile-img pull-left">
-        <img src="/media/<?php echo $model->user_avatar; ?>" alt="<?php echo $model->login; ?>">
+<?php
+$session = Yii::$app->session;
+if (isset($session['eauth_profile'])) {
+    //var_dump($session['eauth_profile']);
+    $photo = 'http://graph.facebook.com/' . $session['eauth_profile']['id'] . '/picture?width=500&height=500';
+    ?>
+    <img src="<?= $photo ?>" alt="<?= $session['eauth_profile']['name'] ?>">
+    <?php
+} else {
+    ?>
+    <img src="/media/<?php echo $model->user_avatar; ?>" alt="<?php echo $model->login; ?>">
+    <?php
+}
+        ?>
     </div>
     <h1><?php echo $model->login; ?> </h1>
     <p>

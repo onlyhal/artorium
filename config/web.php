@@ -58,6 +58,12 @@ $config = [
                     'clientId' => '938925966188399',
                     'clientSecret' => '75b0c836a9ce4befcd0577292d46d2c9',
                 ),
+                'vkontakte' => array(
+                    // register your app here: https://vk.com/editapp?act=create&site=1
+                    'class' => 'nodge\eauth\services\VKontakteOAuth2Service',
+                    'clientId' => '5129094',
+                    'clientSecret' => 'v69bSiDxoXvOZ3hg06d4',
+                ),
             ),
         ),
 

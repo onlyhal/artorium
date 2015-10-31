@@ -51,7 +51,7 @@ AppAsset::register($this);
                 }else{
             ?>
             <li>
-                <a href="<?php echo Url::toRoute(['/users/view/', 'id' => 36]);?>"><?php echo $session['user_login'] ?></a>
+                <a href="<?php echo Url::toRoute(['/users/view/', 'id' => $session['user_id']]);?>"><?php echo $session['user_login'] ?></a>
             </li>
             <li>
                 <a href="<?php echo Url::toRoute('/users/logout');?>">Logout</a>
