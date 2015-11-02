@@ -97,7 +97,16 @@ class UsersController extends Controller
             $model->password_repeat = md5( $model->pass_hash );
             $model->save(false); //we don't need second validation. Returns error if 'true'
 
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $session = new Session;
+            $session->open();
+            $session['user_login'] = strtolower($model->login);
+            $session['user_id'] = $model->id;
+            return $this->render('view', [
+                'model' => $model,
+                'userAge' => BasicHelper::getDateDiff(date('Y-m-d'), $model->date_born)
+            ]);
+           // return $this->redirect(['view', 'model' => $model, 'id' => $model->id]);
 
         } else //if(isset($social_array)){} else
         {
@@ -166,6 +175,7 @@ class UsersController extends Controller
                         ->where([
                             'email' => $session['eauth_profile']['email'],
                         ])->one();
+
                     if(!$model) {
                        $eauth->redirect(array('users/create'));
                     }else{
@@ -174,8 +184,8 @@ class UsersController extends Controller
                         $session['user_login'] = strtolower($model->login);
                         $session['user_id'] = $model->id;
                         //$fb_model = $model;
-                        echo 'xer<br><br><br><br>';
-                        var_dump($model);
+                        /*echo 'xer<br><br><br><br>';
+                        var_dump($model);*/
                         $eauth->redirect(array('users/view',
                             'model' => $model,
                             'id' => $model['id'],
@@ -234,6 +244,7 @@ class UsersController extends Controller
         $session = new Session;
         $session->open();
         unset($session['user_login']);
+        Yii::$app->user->logout();
         return $this->goHome();
     }
     /**

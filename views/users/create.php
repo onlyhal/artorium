@@ -104,7 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
             <p class="lead">Вы ещё не зарегестрированы на artorium!? O_o</p>
             <?php
-            var_dump($session['eauth_profile']);
+            //var_dump($session['eauth_profile']);
             $facebook_birthday = $session['eauth_profile']['birthday'];
             $facebook_birthday = explode("/", $facebook_birthday);
             //var_dump($facebook_birthday);

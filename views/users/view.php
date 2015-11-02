@@ -17,8 +17,12 @@ $dateBorn = new DateTime($model->date_born);
 <?php
 $session = Yii::$app->session;
 if (isset($session['eauth_profile'])) {
-    //var_dump($session['eauth_profile']);
-    $photo = 'http://graph.facebook.com/' . $session['eauth_profile']['id'] . '/picture?width=500&height=500';
+    if ($session['eauth_profile']['app'] == 'fb') {
+        $photo = 'http://graph.facebook.com/' . $session['eauth_profile']['id'] . '/picture?width=500&height=500';
+    } else if ($session['eauth_profile']['app'] == 'vk') {
+        $photo = $session['eauth_profile']['photo_big'];
+    }
+
     ?>
     <img src="<?= $photo ?>" alt="<?= $session['eauth_profile']['name'] ?>">
     <?php
@@ -29,7 +33,9 @@ if (isset($session['eauth_profile'])) {
 }
         ?>
     </div>
-    <h1><?php echo $model->login; ?> </h1>
+    <h1><?php
+        //var_dump($session['eauth_profile']);
+        echo $model->login; ?> </h1>
     <p>
         <?= Html::a('', ['update', 'id' => $model->id], ['class' => 'glyphicon glyphicon-pencil user-edit-btn']) ?>
     </p>
@@ -38,7 +44,7 @@ if (isset($session['eauth_profile'])) {
 
             <p><?php echo $dateBorn->format('d.m.Y'); ?>
                 <?php
-                echo $userAge.' '.BasicHelper::getYearsWord($userAge);
+                    echo $userAge.' '.BasicHelper::getYearsWord($userAge);
                 ?></p>
 
 

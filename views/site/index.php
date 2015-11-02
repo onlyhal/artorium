@@ -4,11 +4,11 @@ $this->title = 'My Yii Application';
 ?>
 
 <?
-$identity = Yii::$app->getUser()->getIdentity();
-var_dump($identity->profile);
+/*$identity = Yii::$app->getUser()->getIdentity();
+var_dump($identity->profile);*/
 
 ?>
-<img src="http://graph.facebook.com/<?=$identity->profile['id'] ?>/picture?width=50&height=50" />
+<!--img src="http://graph.facebook.com/<?php echo "";//$identity->profile['id'] ?>/picture?width=50&height=50" /-->
 
 <div class="site-index">
 
