@@ -23,7 +23,7 @@ use yii\web\IdentityInterface;
  */
 class Users extends ActiveRecord implements IdentityInterface
 {
-    public $id;
+    public $id_profile;
     public $username;
     public $password;
     public $authKey;
