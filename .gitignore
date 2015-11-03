@@ -15,8 +15,8 @@ Thumbs.db
 # composer vendor dir
 vendor/*
 !vendor/nodge/
-vendor/nodge/*
-!vendor/nodge/yii2-eauth/
+#vendor/nodge/*
+#!vendor/nodge/yii2-eauth/
 
 # composer itself is not needed
 composer.phar
